@@ -9,6 +9,7 @@ namespace DesafioEstudo.Dominio.Enum
     public enum EnumSituacao
     {
         Inativo = 0,
-        Ativo = 1
+        Ativo = 1,
+        Pendente = 2
     }
 }
