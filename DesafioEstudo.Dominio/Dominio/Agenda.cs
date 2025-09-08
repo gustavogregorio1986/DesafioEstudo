@@ -17,6 +17,8 @@ namespace DesafioEstudo.Dominio.Dominio
 
         public DateTime DataFim { get; set; }
 
+        public string? Descricao { get; set; }
+
         public EnumSituacao? enumSituacao { get; set; }
 
 
