@@ -39,6 +39,11 @@ namespace DesafioEstudo.Service.Service
 
         }
 
+        public async Task<bool> Deletar(Guid id)
+        {
+            return await _agendaRepository.Deletar(id);
+        }
+
         public async Task<List<Agenda>> ListarAgenda()
         {
             return await _agendaRepository.ListarAgenda();

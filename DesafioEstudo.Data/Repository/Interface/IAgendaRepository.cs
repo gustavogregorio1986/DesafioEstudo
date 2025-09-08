@@ -20,5 +20,7 @@ namespace DesafioEstudo.Data.Repository.Interface
 
         Task<Agenda> AtualizarAneda(Agenda agenda);
 
+        Task<bool> Deletar(Guid id);
+
     }
 }

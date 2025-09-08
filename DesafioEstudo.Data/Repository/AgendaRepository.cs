@@ -34,6 +34,16 @@ namespace DesafioEstudo.Data.Repository
             return agenda;
         }
 
+        public async Task<bool> Deletar(Guid id)
+        {
+            var agenda = await _context.Agendas.FindAsync(id);
+            if(agenda == null) return false;
+
+            _context.Agendas.Remove(agenda);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<Agenda>> ListarAgenda()
         {
             return await _context.Agendas.ToListAsync();

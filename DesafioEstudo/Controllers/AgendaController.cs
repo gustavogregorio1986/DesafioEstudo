@@ -102,6 +102,25 @@ namespace DesafioEstudo.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route("Deletar/{id}")]
+        public async Task<IActionResult> Deletar(Guid id)
+        {
+            try
+            {
+                var resultado = await _agendaService.Deletar(id);
+                if (!resultado)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
 
