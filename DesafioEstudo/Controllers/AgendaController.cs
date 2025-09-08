@@ -9,12 +9,12 @@ namespace DesafioEstudo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AegndaController : ControllerBase
+    public class AgendaController : ControllerBase
     {
         private readonly IAgendaService _agendaService;
         private readonly IMapper _mapper;
 
-        public AegndaController(IAgendaService agendaService, IMapper mapper)
+        public AgendaController(IAgendaService agendaService, IMapper mapper)
         {
             _agendaService = agendaService;
             _mapper = mapper;
@@ -62,6 +62,18 @@ namespace DesafioEstudo.Controllers
         public async Task<List<Agenda>> ListarAgendasPendentes()
         {
             return await _agendaService.ListarAgendasPendentes();
+        }
+
+        [HttpGet]
+        [Route("ObterPorId/{id}")]
+        public async Task<IActionResult> ObterPorId(Guid id)
+        {
+            var agenda = await _agendaService.ObterPorId(id);
+            if(agenda == null)
+            {
+                return NotFound();
+            }
+            return Ok(agenda);
         }
     }
 }
