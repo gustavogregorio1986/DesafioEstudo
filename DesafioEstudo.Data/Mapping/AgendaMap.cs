@@ -35,6 +35,10 @@ namespace DesafioEstudo.Data.Mapping
                .HasColumnName("Situacao")    
                .IsRequired(false);
 
+            builder.Property(x => x.Descricao)
+              .HasColumnType("VARCHAR(MAX)")
+              .IsRequired();
+
         }
     }
 }
