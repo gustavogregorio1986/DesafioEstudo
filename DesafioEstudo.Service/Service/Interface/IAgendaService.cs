@@ -21,5 +21,7 @@ namespace DesafioEstudo.Service.Service.Interface
         Task<List<Agenda>> ListarAgendasInativas();
 
         Task<Agenda> ObterPorId(Guid id);
+
+        Task<Agenda> AtualizarAgenda(Guid id, Agenda novaAgenda);
     }
 }

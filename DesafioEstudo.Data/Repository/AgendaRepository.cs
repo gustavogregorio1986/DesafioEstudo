@@ -27,6 +27,13 @@ namespace DesafioEstudo.Data.Repository
             return agenda;
         }
 
+        public async Task<Agenda> AtualizarAneda(Agenda agenda)
+        {
+            _context.Agendas.Update(agenda);
+            await _context.SaveChangesAsync();
+            return agenda;
+        }
+
         public async Task<List<Agenda>> ListarAgenda()
         {
             return await _context.Agendas.ToListAsync();

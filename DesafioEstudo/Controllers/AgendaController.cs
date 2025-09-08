@@ -24,16 +24,23 @@ namespace DesafioEstudo.Controllers
         [Route("AdicionarAgenda")]
         public async  Task<IActionResult> AdicionarAgenda(AgendaDTO dto)
         {
-            if(!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var agenda = _mapper.Map<Agenda>(dto);
+                await _agendaService.AdicionarAgenda(agenda);
+
+
+                return CreatedAtAction(nameof(AdicionarAgenda), new { id = agenda.Id }, agenda);
             }
-
-            var agenda = _mapper.Map<Agenda>(dto);
-            await _agendaService.AdicionarAgenda(agenda);
-
-
-            return CreatedAtAction(nameof(AdicionarAgenda), new { id = agenda.Id }, agenda);
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -74,6 +81,26 @@ namespace DesafioEstudo.Controllers
                 return NotFound();
             }
             return Ok(agenda);
+        }
+
+        [HttpPut]
+        [Route("AtualizarAgenda/{id}")]
+        public async Task<IActionResult> AtualizarAgenda(Guid id, AgendaDTO dto)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var novaAgenda = _mapper.Map<Agenda>(dto);
+                var agendaAtualizada = await _agendaService.AtualizarAgenda(id, novaAgenda);
+                return Ok(agendaAtualizada);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

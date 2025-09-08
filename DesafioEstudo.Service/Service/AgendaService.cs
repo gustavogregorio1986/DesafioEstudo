@@ -23,6 +23,22 @@ namespace DesafioEstudo.Service.Service
             return await _agendaRepository.AdicionarAgenda(agenda);
         }
 
+        public async Task<Agenda> AtualizarAgenda(Guid id, Agenda novaAgenda)
+        {
+            var agendaExistente = await _agendaRepository.ObterPorId(id);
+
+            if(agendaExistente == null)
+                throw new Exception("Agenda não encontrada");
+
+            agendaExistente.Titulo = novaAgenda.Titulo;
+            agendaExistente.DataInicio = novaAgenda.DataInicio;
+            agendaExistente.DataFim = novaAgenda.DataFim;
+            agendaExistente.Descricao = novaAgenda.Descricao;
+
+            return await _agendaRepository.AtualizarAneda(agendaExistente);
+
+        }
+
         public async Task<List<Agenda>> ListarAgenda()
         {
             return await _agendaRepository.ListarAgenda();
