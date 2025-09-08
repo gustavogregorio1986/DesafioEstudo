@@ -4,6 +4,9 @@ using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Service.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace DesafioEstudo.Controllers
 {
@@ -120,6 +123,62 @@ namespace DesafioEstudo.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpGet("GerarRelatorio")]
+        public async Task<IActionResult> GerarRelatorio()
+        {
+            var compromissos = await _agendaService.ListarAgenda();
+
+            var pdf = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(2, Unit.Centimetre);
+                    page.DefaultTextStyle(x => x.FontSize(12));
+
+                    page.Header().Text("Relatório de Compromissos").FontSize(18).Bold().AlignCenter();
+
+                    page.Content().Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.RelativeColumn(); // Título
+                            columns.RelativeColumn(); // Data Início
+                            columns.RelativeColumn(); // Data Fim
+                            columns.RelativeColumn(); // Situação
+                            columns.RelativeColumn(); // Descrição
+                        });
+
+                        table.Header(header =>
+                        {
+                            header.Cell().Text("Título").Bold();
+                            header.Cell().Text("Início").Bold();
+                            header.Cell().Text("Fim").Bold();
+                            header.Cell().Text("Situação").Bold();
+                            header.Cell().Text("Descrição").Bold();
+                        });
+
+                        foreach (var item in compromissos)
+                        {
+                            table.Cell().Text(item.Titulo);
+                            table.Cell().Text(item.DataInicio.ToString("dd/MM/yyyy HH:mm"));
+                            table.Cell().Text(item.DataFim.ToString("dd/MM/yyyy HH:mm"));
+                            table.Cell().Text(item.enumSituacao); // ou item.enumSituacao se for enum
+                            table.Cell().Text(item.Descricao);
+                        }
+                    });
+
+                    page.Footer().AlignCenter().Text(x =>
+                    {
+                        x.Span("Página ");
+                        x.CurrentPageNumber();
+                    });
+                });
+            }).GeneratePdf();
+
+            return File(pdf, "application/pdf", "agenda.pdf");
         }
     }
 }
