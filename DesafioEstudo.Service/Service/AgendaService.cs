@@ -22,5 +22,10 @@ namespace DesafioEstudo.Service.Service
         {
             return await _agendaRepository.AdicionarAgenda(agenda);
         }
+
+        public async Task<List<Agenda>> ListarAgenda()
+        {
+            return await _agendaRepository.ListarAgenda();
+        }
     }
 }

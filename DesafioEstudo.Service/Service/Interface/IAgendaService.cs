@@ -10,5 +10,7 @@ namespace DesafioEstudo.Service.Service.Interface
     public interface IAgendaService
     {
         Task<Agenda> AdicionarAgenda(Agenda agenda);
+
+        Task<List<Agenda>> ListarAgenda();
     }
 }

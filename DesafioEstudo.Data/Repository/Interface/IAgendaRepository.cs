@@ -10,5 +10,7 @@ namespace DesafioEstudo.Data.Repository.Interface
     public interface IAgendaRepository
     {
         Task<Agenda>  AdicionarAgenda(Agenda agenda);
+
+        Task<List<Agenda>> ListarAgenda();
     }
 }

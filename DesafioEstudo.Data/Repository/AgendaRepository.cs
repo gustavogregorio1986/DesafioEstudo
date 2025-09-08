@@ -1,6 +1,7 @@
 ﻿using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Context;
 using DesafioEstudo.Dominio.Dominio;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,11 @@ namespace DesafioEstudo.Data.Repository
             await _context.Agendas.AddAsync(agenda);
             await _context.SaveChangesAsync();
             return agenda;
+        }
+
+        public async Task<List<Agenda>> ListarAgenda()
+        {
+            return await _context.Agendas.ToListAsync();
         }
     }
 }
