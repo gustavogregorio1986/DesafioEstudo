@@ -11,7 +11,12 @@ namespace DesafioEstudo.Service.Service
 {
     public class AgendaService : IAgendaService
     {
-        private IAgendaRepository _agendaRepository;
+        private readonly IAgendaRepository _agendaRepository;
+
+        public AgendaService(IAgendaRepository agendaRepository)
+        {
+            _agendaRepository = agendaRepository;
+        }
 
         public async Task<Agenda> AdicionarAgenda(Agenda agenda)
         {

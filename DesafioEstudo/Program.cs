@@ -1,4 +1,9 @@
+using DesafioEstudo.Data.AutoMapper;
+using DesafioEstudo.Data.Repository;
+using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Context;
+using DesafioEstudo.Service.Service;
+using DesafioEstudo.Service.Service.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DesafioEstudoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(AgendaProfile));
+
+builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
+builder.Services.AddScoped<IAgendaService, AgendaService>();
 
 var app = builder.Build();
 
