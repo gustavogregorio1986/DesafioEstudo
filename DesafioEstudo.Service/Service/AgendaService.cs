@@ -27,5 +27,20 @@ namespace DesafioEstudo.Service.Service
         {
             return await _agendaRepository.ListarAgenda();
         }
+
+        public async Task<List<Agenda>> ListarAgendasAtivas()
+        {
+            return await _agendaRepository.ListarPorSituacao(Dominio.Enum.EnumSituacao.Ativo);
+        }
+
+        public async Task<List<Agenda>> ListarAgendasInativas()
+        {
+            return await _agendaRepository.ListarPorSituacao(Dominio.Enum.EnumSituacao.Inativo);
+        }
+
+        public async Task<List<Agenda>> ListarAgendasPendentes()
+        {
+            return await _agendaRepository.ListarPorSituacao(Dominio.Enum.EnumSituacao.Pendente);
+        }
     }
 }

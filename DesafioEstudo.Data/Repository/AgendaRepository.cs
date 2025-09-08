@@ -1,6 +1,7 @@
 ﻿using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Context;
 using DesafioEstudo.Dominio.Dominio;
+using DesafioEstudo.Dominio.Enum;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ namespace DesafioEstudo.Data.Repository
         public async Task<List<Agenda>> ListarAgenda()
         {
             return await _context.Agendas.ToListAsync();
+        }
+
+        public async Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao)
+        {
+            return await _context.Agendas
+                .Where(a => a.enumSituacao == situacao)
+                .ToListAsync();
         }
     }
 }
