@@ -16,5 +16,7 @@ namespace DesafioEstudo.Data.Repository.Interface
 
         Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao);
 
+        Task<Agenda> ObterPorId(Guid id);
+
     }
 }

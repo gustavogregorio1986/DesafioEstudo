@@ -38,5 +38,10 @@ namespace DesafioEstudo.Data.Repository
                 .Where(a => a.enumSituacao == situacao)
                 .ToListAsync();
         }
+
+        public async Task<Agenda> ObterPorId(Guid id)
+        {
+            return await _context.Agendas.FirstOrDefaultAsync(a => a.Id == id);
+        }
     }
 }

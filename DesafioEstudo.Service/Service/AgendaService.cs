@@ -42,5 +42,10 @@ namespace DesafioEstudo.Service.Service
         {
             return await _agendaRepository.ListarPorSituacao(Dominio.Enum.EnumSituacao.Pendente);
         }
+
+        public async Task<Agenda> ObterPorId(Guid id)
+        {
+            return await _agendaRepository.ObterPorId(id);
+        }
     }
 }
