@@ -36,6 +36,13 @@ namespace DesafioEstudo.Controllers
             return CreatedAtAction(nameof(AdicionarAgenda), new { id = agenda.Id }, agenda);
         }
 
+        [HttpGet]
+        [Route("ListarAgenda")]
+        public async Task<List<Agenda>> ListarAgenda()
+        {
+            return await _agendaService.ListarAgenda();
+        }
+
 
     }
 }
