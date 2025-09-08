@@ -18,6 +18,18 @@ builder.Services.AddDbContext<DesafioEstudoContext>(options => options.UseSqlSer
 
 builder.Services.AddAutoMapper(typeof(AgendaProfile));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200") // ou "http://localhost:3000"
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
+
+
 builder.Services.AddScoped<IAgendaRepository, AgendaRepository>();
 builder.Services.AddScoped<IAgendaService, AgendaService>();
 
