@@ -43,7 +43,26 @@ namespace DesafioEstudo.Controllers
             return await _agendaService.ListarAgenda();
         }
 
+        [HttpGet]
+        [Route("ListarAgendasAtivas")]
+        public async Task<List<Agenda>> ListarAgendasAtivas()
+        {
+            return await _agendaService.ListarAgendasAtivas();
+        }
 
+        [HttpGet]
+        [Route("ListarAgendasInativas")]
+        public async Task<List<Agenda>> ListarAgendasInativas()
+        {
+            return await _agendaService.ListarAgendasInativas();
+        }
+
+        [HttpGet]
+        [Route("ListarAgendasPendentes")]
+        public async Task<List<Agenda>> ListarAgendasPendentes()
+        {
+            return await _agendaService.ListarAgendasPendentes();
+        }
     }
 }
 

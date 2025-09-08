@@ -14,7 +14,7 @@ namespace DesafioEstudo.Data.Repository.Interface
 
         Task<List<Agenda>> ListarAgenda();
 
-        Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao)
+        Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao);
 
     }
 }
