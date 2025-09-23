@@ -8,8 +8,8 @@ namespace DesafioEstudo.Dominio.Enum
 {
     public enum EnumSituacao
     {
-        Inativo = 0,
         Ativo = 1,
-        Pendente = 2
+        Pendente = 2,
+        Inativo = 3
     }
 }
