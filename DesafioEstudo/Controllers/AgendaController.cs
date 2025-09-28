@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClosedXML.Excel;
 using DesafioEstudo.Data.DTO;
 using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Service.Service.Interface;
@@ -123,6 +124,43 @@ namespace DesafioEstudo.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpGet("ExportarExcel")]
+        public async Task<IActionResult> ExportarExcel()
+        {
+            var compromissos = await _agendaService.ListarAgenda();
+
+            using var workbook = new XLWorkbook();
+            var worksheet = workbook.Worksheets.Add("Compromissos");
+
+            // Cabeçalhos
+            worksheet.Cell(1, 1).Value = "Título";
+            worksheet.Cell(1, 2).Value = "Início";
+            worksheet.Cell(1, 3).Value = "Fim";
+            worksheet.Cell(1, 4).Value = "Situação";
+            worksheet.Cell(1, 5).Value = "Descrição";
+
+            // Dados
+            int linha = 2;
+            foreach (var item in compromissos)
+            {
+                worksheet.Cell(linha, 1).Value = item.Titulo;
+                worksheet.Cell(linha, 2).Value = item.DataInicio.ToString("dd/MM/yyyy HH:mm");
+                worksheet.Cell(linha, 3).Value = item.DataFim.ToString("dd/MM/yyyy HH:mm") ?? "—";
+                worksheet.Cell(linha, 4).Value = item.enumSituacao.ToString();
+                worksheet.Cell(linha, 5).Value = item.Descricao;
+                linha++;
+            }
+
+            // Gerar arquivo
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            stream.Position = 0;
+
+            return File(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "agenda.xlsx");
         }
 
         [HttpGet("GerarRelatorio")]
