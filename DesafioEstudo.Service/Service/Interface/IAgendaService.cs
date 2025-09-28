@@ -27,5 +27,7 @@ namespace DesafioEstudo.Service.Service.Interface
         Task<bool> Deletar(Guid id);
 
         Task<byte[]> GerarExcelPorAnoAsync();
+
+        Task<byte[]> GerarPdfPorAnoAsync();
     }
 }

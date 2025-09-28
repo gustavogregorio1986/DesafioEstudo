@@ -2,12 +2,17 @@
 using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Service.Service.Interface;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+
+
 
 
 namespace DesafioEstudo.Service.Service
@@ -66,7 +71,7 @@ namespace DesafioEstudo.Service.Service
         {
             var agendaExistente = await _agendaRepository.ObterPorId(id);
 
-            if(agendaExistente == null)
+            if (agendaExistente == null)
                 throw new Exception("Agenda não encontrada");
 
             agendaExistente.Titulo = novaAgenda.Titulo;
@@ -106,6 +111,81 @@ namespace DesafioEstudo.Service.Service
         public async Task<Agenda> ObterPorId(Guid id)
         {
             return await _agendaRepository.ObterPorId(id);
+        }
+
+        public async Task<byte[]> GerarPdfPorAnoAsync()
+        {
+            var compromissos = await _agendaRepository.ListarAgenda();
+            var agrupadosPorAno = compromissos
+                .GroupBy(c => c.DataInicio.Year)
+                .OrderBy(g => g.Key);
+
+            var pdf = QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Size(PageSizes.A4);
+                    page.Margin(2, Unit.Centimetre);
+                    page.DefaultTextStyle(x => x.FontSize(12));
+
+                    page.Header().Text("Relatório de Compromissos por Ano")
+                        .FontSize(18)
+                        .Bold()
+                        .AlignCenter();
+
+                    page.Content().Column(col =>
+                    {
+                        foreach (var grupo in agrupadosPorAno)
+                        {
+                            // ✅ Corrigido: PaddingBottom aplicado ao Item, não ao Text
+                            col.Item().PaddingBottom(5).Text($"Ano: {grupo.Key}")
+                                .FontSize(14)
+                                .Bold()
+                                .Underline();
+
+                            col.Item().Table(table =>
+                            {
+                                table.ColumnsDefinition(columns =>
+                                {
+                                    columns.RelativeColumn(); // Título
+                                    columns.RelativeColumn(); // Início
+                                    columns.RelativeColumn(); // Fim
+                                    columns.RelativeColumn(); // Situação
+                                    columns.RelativeColumn(); // Descrição
+                                });
+
+                                table.Header(header =>
+                                {
+                                    header.Cell().Text("Título").Bold();
+                                    header.Cell().Text("Início").Bold();
+                                    header.Cell().Text("Fim").Bold();
+                                    header.Cell().Text("Situação").Bold();
+                                    header.Cell().Text("Descrição").Bold();
+                                });
+
+                                foreach (var item in grupo.OrderBy(c => c.DataInicio))
+                                {
+                                    table.Cell().Text(item.Titulo);
+                                    table.Cell().Text(item.DataInicio.ToString("dd/MM/yyyy HH:mm"));
+                                    table.Cell().Text(item.DataFim.ToString("dd/MM/yyyy HH:mm") ?? "—");
+                                    table.Cell().Text(item.enumSituacao.ToString());
+                                    table.Cell().Text(item.Descricao);
+                                }
+                            });
+
+                            col.Item().PaddingBottom(10); // espaçamento entre grupos
+                        }
+                    });
+
+                    page.Footer().AlignCenter().Text(x =>
+                    {
+                        x.Span("Página ");
+                        x.CurrentPageNumber();
+                    });
+                });
+            }).GeneratePdf();
+
+            return pdf;
         }
     }
 }
