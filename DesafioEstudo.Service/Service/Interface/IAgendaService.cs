@@ -25,5 +25,7 @@ namespace DesafioEstudo.Service.Service.Interface
         Task<Agenda> AtualizarAgenda(Guid id, Agenda novaAgenda);
 
         Task<bool> Deletar(Guid id);
+
+        Task<byte[]> GerarExcelPorAnoAsync();
     }
 }

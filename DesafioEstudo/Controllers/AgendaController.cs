@@ -126,6 +126,18 @@ namespace DesafioEstudo.Controllers
             }
         }
 
+        [HttpGet("ExportarExcelPorAno")]
+        public async Task<IActionResult> ExportarExcelPorAno()
+        {
+            var arquivo = await _agendaService.GerarExcelPorAnoAsync();
+            return File(arquivo,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        $"agenda-por-ano-{DateTime.Now:yyyyMMdd}.xlsx");
+        }
+
+
+
+
         [HttpGet("ExportarExcel")]
         public async Task<IActionResult> ExportarExcel()
         {
