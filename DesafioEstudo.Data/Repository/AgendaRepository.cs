@@ -34,6 +34,21 @@ namespace DesafioEstudo.Data.Repository
             return agenda;
         }
 
+        public async Task AtualizarSituacaoAsync(Guid id, EnumSituacao novaSituacao)
+        {
+            var agenda = await ObterPorId(id);
+            if (agenda == null) throw new Exception("Agenda não encontrada");
+
+            agenda.enumSituacao = novaSituacao;
+            await _context.SaveChangesAsync();
+
+        }
+
+        public Task AtualizarSituacaoAsync(int id, string novaSituacao)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> Deletar(Guid id)
         {
             var agenda = await _context.Agendas.FindAsync(id);

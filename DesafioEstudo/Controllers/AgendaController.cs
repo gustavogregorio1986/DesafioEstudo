@@ -126,6 +126,15 @@ namespace DesafioEstudo.Controllers
             }
         }
 
+        [HttpPut("{id}/situacao")]
+        public async Task<IActionResult> AtualizarSituacao(int id, [FromBody] string novaSituacao)
+        {
+            await _agendaService.AtualizarSituacaoAsync(id, novaSituacao);
+            return NoContent();
+        }
+
+
+
         [HttpGet("ExportarExcelPorAno")]
         public async Task<IActionResult> ExportarExcelPorAno()
         {

@@ -187,5 +187,10 @@ namespace DesafioEstudo.Service.Service
 
             return pdf;
         }
+
+        public async Task AtualizarSituacaoAsync(int id, string novaSituacao)
+        {
+          await _agendaRepository.AtualizarSituacaoAsync(id, novaSituacao);
+        }
     }
 }

@@ -22,5 +22,6 @@ namespace DesafioEstudo.Data.Repository.Interface
 
         Task<bool> Deletar(Guid id);
 
+        Task AtualizarSituacaoAsync(int id, string novaSituacao);
     }
 }

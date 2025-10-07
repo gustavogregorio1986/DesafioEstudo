@@ -29,5 +29,7 @@ namespace DesafioEstudo.Service.Service.Interface
         Task<byte[]> GerarExcelPorAnoAsync();
 
         Task<byte[]> GerarPdfPorAnoAsync();
+
+        Task AtualizarSituacaoAsync(int id, string novaSituacao);
     }
 }
