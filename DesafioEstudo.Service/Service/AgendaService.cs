@@ -93,8 +93,6 @@ namespace DesafioEstudo.Service.Service
             return await _agendaRepository.Deletar(id);
         }
 
-        
-
         public async Task<List<Agenda>> ListarAgendasAtivas()
         {
             return await _agendaRepository.ListarPorSituacao(Dominio.Enum.EnumSituacao.Ativo);
