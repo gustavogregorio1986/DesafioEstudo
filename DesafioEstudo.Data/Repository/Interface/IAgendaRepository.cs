@@ -1,4 +1,5 @@
-﻿using DesafioEstudo.Dominio.Dominio;
+﻿using DesafioEstudo.Data.DTO;
+using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Dominio.Enum;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace DesafioEstudo.Data.Repository.Interface
     {
         Task<Agenda>  AdicionarAgenda(Agenda agenda);
 
-        Task<List<Agenda>> ListarAgenda();
+        Task<List<AgendaDTO>> ListarAgenda();
 
         Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao);
 

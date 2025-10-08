@@ -26,5 +26,7 @@ namespace DesafioEstudo.Data.DTO
 
         [EnumDataType(typeof(EnumSituacao), ErrorMessage = "Situação invalida")]
         public EnumSituacao? enumSituacao { get; set; }
+
+        public string? Turno { get; set; }
     }
 }

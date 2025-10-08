@@ -1,4 +1,5 @@
-﻿using DesafioEstudo.Data.Repository.Interface;
+﻿using DesafioEstudo.Data.DTO;
+using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Context;
 using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Dominio.Enum;
@@ -44,11 +45,6 @@ namespace DesafioEstudo.Data.Repository
 
         }
 
-        public Task AtualizarSituacaoAsync(int id, string novaSituacao)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<bool> Deletar(Guid id)
         {
             var agenda = await _context.Agendas.FindAsync(id);
@@ -59,9 +55,37 @@ namespace DesafioEstudo.Data.Repository
             return true;
         }
 
-        public async Task<List<Agenda>> ListarAgenda()
+        public async Task<List<AgendaDTO>> ListarAgenda()
         {
-            return await _context.Agendas.ToListAsync();
+            var agendas = await _context.Agendas.ToListAsync();
+
+            var agendasDTO = agendas.Select(a => new AgendaDTO
+            {
+                Titulo = a.Titulo,
+                DataInicio = a.DataInicio,
+                DataFim = a.DataFim,
+                Descricao = a.Descricao,
+                enumSituacao = a.enumSituacao,
+                Turno = string.IsNullOrEmpty(a.Turno)
+                    ? DefinirTurno(a.DataInicio) // ← aqui você aplica a lógica
+                    : a.Turno
+            }).ToList();
+
+            return agendasDTO;
+
+
+        }
+
+        private string DefinirTurno(DateTime dataInicio)
+        {
+            var hora = dataInicio.Hour;
+
+            if (hora >= 5 && hora < 12)
+                return "manha";
+            else if (hora >= 12 && hora < 18)
+                return "tarde";
+            else
+                return "noite";
         }
 
         public async Task<List<Agenda>> ListarPorSituacao(EnumSituacao situacao)
@@ -74,6 +98,11 @@ namespace DesafioEstudo.Data.Repository
         public async Task<Agenda> ObterPorId(Guid id)
         {
             return await _context.Agendas.FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public Task AtualizarSituacaoAsync(int id, string novaSituacao)
+        {
+            throw new NotImplementedException();
         }
     }
 }

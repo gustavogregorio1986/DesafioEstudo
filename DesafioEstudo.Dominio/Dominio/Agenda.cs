@@ -21,6 +21,6 @@ namespace DesafioEstudo.Dominio.Dominio
 
         public EnumSituacao? enumSituacao { get; set; }
 
-
+        public string? Turno { get; set; }
     }
 }

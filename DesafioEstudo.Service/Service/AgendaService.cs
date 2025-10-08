@@ -93,10 +93,7 @@ namespace DesafioEstudo.Service.Service
             return await _agendaRepository.Deletar(id);
         }
 
-        public async Task<List<Agenda>> ListarAgenda()
-        {
-            return await _agendaRepository.ListarAgenda();
-        }
+        
 
         public async Task<List<Agenda>> ListarAgendasAtivas()
         {
@@ -203,7 +200,33 @@ namespace DesafioEstudo.Service.Service
             await _agendaRepository.AtualizarAneda(agenda);
         }
 
+        public async Task<List<AgendaDTO>> ListarAgendasTurnos()
+        {
+            var agendas = await _agendaRepository.ListarAgenda();
 
+            return agendas.Select(a => new AgendaDTO
+            {
+                Titulo = a.Titulo,
+                DataInicio = a.DataInicio,
+                DataFim = a.DataFim,
+                Descricao = a.Descricao,
+                enumSituacao = a.enumSituacao,
+                Turno = DefinirTurno(a.DataInicio) // ← lógica aplicada aqui
+            }).ToList();
+        }
+
+        private string DefinirTurno(DateTime dataInicio)
+        {
+            var hora = dataInicio.Hour;
+            if (hora >= 5 && hora < 12) return "manha";
+            if (hora >= 12 && hora < 18) return "tarde";
+            return "noite";
+        }
+
+        public async Task<List<AgendaDTO>> ListarAgenda()
+        {
+            return await _agendaRepository.ListarAgenda();
+        }
     }
 
 }

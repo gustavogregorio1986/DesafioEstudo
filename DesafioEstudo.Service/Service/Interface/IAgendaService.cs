@@ -13,7 +13,7 @@ namespace DesafioEstudo.Service.Service.Interface
     {
         Task<Agenda> AdicionarAgenda(Agenda agenda);
 
-        Task<List<Agenda>> ListarAgenda();
+        Task<List<AgendaDTO>> ListarAgenda();
 
         Task<List<Agenda>> ListarAgendasPendentes();
 
@@ -32,5 +32,8 @@ namespace DesafioEstudo.Service.Service.Interface
         Task<byte[]> GerarPdfPorAnoAsync();
 
         Task AtualizarSituacaoAsync(Guid id, SituacaoDto dto);
+
+        Task<List<AgendaDTO>> ListarAgendasTurnos();
+
     }
 }

@@ -50,7 +50,7 @@ namespace DesafioEstudo.Controllers
 
         [HttpGet]
         [Route("ListarAgenda")]
-        public async Task<List<Agenda>> ListarAgenda()
+        public async Task<List<AgendaDTO>> ListarAgenda()
         {
             return await _agendaService.ListarAgenda();
         }
@@ -202,6 +202,13 @@ namespace DesafioEstudo.Controllers
             }).GeneratePdf();
 
             return File(pdf, "application/pdf", "agenda.pdf");
+        }
+
+        [HttpGet("ListarAgendasTurnos")]
+        public async Task<IActionResult> ListarAgendasTurnos()
+        {
+            var agendas = await _agendaService.ListarAgendasTurnos();
+            return Ok(agendas); // ← Turno já vem preenchido!
         }
     }
 }
