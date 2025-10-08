@@ -2,6 +2,7 @@
 using ClosedXML.Excel;
 using DesafioEstudo.Data.DTO;
 using DesafioEstudo.Dominio.Dominio;
+using DesafioEstudo.Dominio.Enum;
 using DesafioEstudo.Service.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -127,12 +128,14 @@ namespace DesafioEstudo.Controllers
         }
 
         [HttpPut("{id}/situacao")]
-        public async Task<IActionResult> AtualizarSituacao(int id, [FromBody] string novaSituacao)
+        public async Task<IActionResult> AtualizarSituacao(Guid id, [FromBody] SituacaoDto dto)
         {
-            await _agendaService.AtualizarSituacaoAsync(id, novaSituacao);
+            if (!Enum.IsDefined(typeof(EnumSituacao), dto.Situacao))
+                return BadRequest("Situação inválida.");
+
+            await _agendaService.AtualizarSituacaoAsync(id, dto);
             return NoContent();
         }
-
 
 
         [HttpGet("ExportarExcelPorAno")]

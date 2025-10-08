@@ -1,4 +1,6 @@
-﻿using ClosedXML.Excel;
+﻿using AutoMapper;
+using ClosedXML.Excel;
+using DesafioEstudo.Data.DTO;
 using DesafioEstudo.Data.Repository.Interface;
 using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Service.Service.Interface;
@@ -20,10 +22,13 @@ namespace DesafioEstudo.Service.Service
     public class AgendaService : IAgendaService
     {
         private readonly IAgendaRepository _agendaRepository;
+        private readonly IMapper _mapper;
 
-        public AgendaService(IAgendaRepository agendaRepository)
+
+        public AgendaService(IAgendaRepository agendaRepository, IMapper mapper)
         {
             _agendaRepository = agendaRepository;
+            _mapper = mapper;
         }
 
         public async Task<byte[]> GerarExcelPorAnoAsync()
@@ -188,9 +193,17 @@ namespace DesafioEstudo.Service.Service
             return pdf;
         }
 
-        public async Task AtualizarSituacaoAsync(int id, string novaSituacao)
+        public async Task AtualizarSituacaoAsync(Guid id, SituacaoDto dto)
         {
-          await _agendaRepository.AtualizarSituacaoAsync(id, novaSituacao);
+            var agenda = await _agendaRepository.ObterPorId(id);
+            if (agenda == null)
+                throw new Exception("Agenda não encontrada");
+
+            _mapper.Map(dto, agenda); // aplica EnumSituacao
+            await _agendaRepository.AtualizarAneda(agenda);
         }
+
+
     }
+
 }

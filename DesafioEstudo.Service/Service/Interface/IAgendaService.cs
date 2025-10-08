@@ -1,4 +1,5 @@
-﻿using DesafioEstudo.Dominio.Dominio;
+﻿using DesafioEstudo.Data.DTO;
+using DesafioEstudo.Dominio.Dominio;
 using DesafioEstudo.Dominio.Enum;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,6 @@ namespace DesafioEstudo.Service.Service.Interface
 
         Task<byte[]> GerarPdfPorAnoAsync();
 
-        Task AtualizarSituacaoAsync(int id, string novaSituacao);
+        Task AtualizarSituacaoAsync(Guid id, SituacaoDto dto);
     }
 }

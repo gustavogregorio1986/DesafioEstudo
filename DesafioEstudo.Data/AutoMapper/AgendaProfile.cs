@@ -15,6 +15,8 @@ namespace DesafioEstudo.Data.AutoMapper
         {
             CreateMap<Agenda, AgendaDTO>();
             CreateMap<AgendaDTO, Agenda>();
+            CreateMap<SituacaoDto, Agenda>()
+                .ForMember(dest => dest.enumSituacao, opt => opt.MapFrom(src => src.Situacao));
         }
     }
 }
