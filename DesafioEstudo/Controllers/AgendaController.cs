@@ -90,7 +90,7 @@ namespace DesafioEstudo.Controllers
 
         [HttpPut]
         [Route("AtualizarAgenda/{id}")]
-        public async Task<IActionResult> AtualizarAgenda(Guid id, AgendaDTO dto)
+        public async Task<IActionResult> AtualizarAgenda(Guid id, [FromBody] AgendaDTO dto)
         {
             try
             {
@@ -98,8 +98,8 @@ namespace DesafioEstudo.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var novaAgenda = _mapper.Map<Agenda>(dto);
-                var agendaAtualizada = await _agendaService.AtualizarAgenda(id, novaAgenda);
+
+                var agendaAtualizada = await _agendaService.AtualizarAgenda(id, dto);
                 return Ok(agendaAtualizada);
             }
             catch (Exception ex)

@@ -72,7 +72,7 @@ namespace DesafioEstudo.Service.Service
             return await _agendaRepository.AdicionarAgenda(agenda);
         }
 
-        public async Task<Agenda> AtualizarAgenda(Guid id, Agenda novaAgenda)
+        public async Task<Agenda> AtualizarAgenda(Guid id, AgendaDTO novaAgenda)
         {
             var agendaExistente = await _agendaRepository.ObterPorId(id);
 
@@ -83,6 +83,10 @@ namespace DesafioEstudo.Service.Service
             agendaExistente.DataInicio = novaAgenda.DataInicio;
             agendaExistente.DataFim = novaAgenda.DataFim;
             agendaExistente.Descricao = novaAgenda.Descricao;
+            // Atualiza o turno com base na nova DataInicio
+            agendaExistente.Turno = string.IsNullOrEmpty(novaAgenda.Turno)
+                ? DefinirTurno(novaAgenda.DataInicio)
+                : novaAgenda.Turno;
 
             return await _agendaRepository.AtualizarAneda(agendaExistente);
 

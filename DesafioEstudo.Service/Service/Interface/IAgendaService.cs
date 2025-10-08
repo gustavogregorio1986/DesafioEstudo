@@ -23,7 +23,7 @@ namespace DesafioEstudo.Service.Service.Interface
 
         Task<Agenda> ObterPorId(Guid id);
 
-        Task<Agenda> AtualizarAgenda(Guid id, Agenda novaAgenda);
+        Task<Agenda> AtualizarAgenda(Guid id, AgendaDTO novaAgenda);
 
         Task<bool> Deletar(Guid id);
 

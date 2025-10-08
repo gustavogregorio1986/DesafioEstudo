@@ -9,7 +9,7 @@ namespace DesafioEstudo.Dominio.Dominio
 {
     public class Agenda
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
         public string? Titulo { get; set; }
 
