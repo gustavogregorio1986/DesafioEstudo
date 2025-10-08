@@ -76,6 +76,7 @@ namespace DesafioEstudo.Data.Repository
 
         }
 
+        //Logica paraa aparecer o turno na listagem
         private string DefinirTurno(DateTime dataInicio)
         {
             var hora = dataInicio.Hour;
